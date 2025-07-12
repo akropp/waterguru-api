@@ -24,6 +24,7 @@ from warrant.aws_srp import AWSSRP
 import requests
 import logging
 from requests_aws4auth import AWS4Auth
+import json
 
 # App config.
 DEBUG = False
@@ -31,10 +32,18 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 app.config['SECRET_KEY'] = '32624076087108375603827608353'
 
+# Load config from /data/options.json (set by Supervisor)
+try:
+    with open('/data/options.json') as f:
+        options = json.load(f)
+except Exception as e:
+    print(f"Failed to read options.json: {e}")
+    options = {}
+
 config = {
-    "port": "WG_PORT", # port for your service to run on
-	"user": "WG_USER",
-	"pass": "WG_PASS"
+    "port": options.get("port", "53255"),
+    "user": options.get("user", ""),
+    "pass": options.get("pass", "")
 }
 
 def doWg():

@@ -1,0 +1,25 @@
+---
+name: "WaterGuru API"
+description: "Run the WaterGuru API in HomeAssistant"
+version: "1.0.0"
+slug: "waterguru_api"
+init: false
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+startup: application
+build_from:
+  aarch64: Dockerfile
+ports:
+  53255/tcp: 53255
+options:
+  port: "53255"
+  user: ""
+  pass: ""
+schema:
+  port: int
+  user: str?
+  pass: str?
